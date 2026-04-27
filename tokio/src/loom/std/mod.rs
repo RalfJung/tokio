@@ -51,21 +51,20 @@ pub(crate) mod sync {
     // internal use. Note however that some are not _currently_ named by
     // consuming code.
 
-    // Not using parking_lot in Miri due to <https://github.com/Amanieu/parking_lot/issues/477>.
-    #[cfg(all(feature = "parking_lot", not(miri)))]
+    #[cfg(feature = "parking_lot")]
     #[allow(unused_imports)]
     pub(crate) use crate::loom::std::parking_lot::{
         Condvar, Mutex, MutexGuard, RwLock, RwLockReadGuard, WaitTimeoutResult,
     };
 
-    #[cfg(not(all(feature = "parking_lot", not(miri))))]
+    #[cfg(not(feature = "parking_lot"))]
     #[allow(unused_imports)]
     pub(crate) use std::sync::{Condvar, MutexGuard, RwLockReadGuard, WaitTimeoutResult};
 
-    #[cfg(not(all(feature = "parking_lot", not(miri))))]
+    #[cfg(not(feature = "parking_lot"))]
     pub(crate) use crate::loom::std::mutex::Mutex;
 
-    #[cfg(not(all(feature = "parking_lot", not(miri))))]
+    #[cfg(not(feature = "parking_lot"))]
     pub(crate) use crate::loom::std::rwlock::RwLock;
 
     pub(crate) mod atomic {
